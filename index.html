@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>随机点名</title>
+    <style>
+        /* 初始化页面，清除所有元素的内外边距 */
+        *{
+            padding: 0;
+            margin: 0;
+            /* 设置背景颜色为414141 */
+            background-color: #414141;
+        }
+        /* 盒子居中 */
+        div{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            text-align: center;
+        }
+        /* 使用上期视频的文字渐变效果，再加一点点文字阴影 */
+        span,h2{
+        	text-shadow: 0 0 10px #dfd8d8;
+            background: linear-gradient(135deg,#14ffe9,#ffeb3b,#ff00e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: ff 0.9s linear infinite;
+        }
+        @keyframes ff{
+            to{filter: hue-rotate(360deg);}
+        }
+        /* 设置一下字体大小 */
+        h2{
+            font-size: 72px;
+        }
+        span{
+            font-size: 46px;
+        }
+
+
+        /* 按钮居中 */
+        button{
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            width: 80px;
+            height: 25px;
+            box-shadow: 0 0 10px #fff;
+            /* 取消轮廓线 */
+            outline: none;
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2>随机点名</h2>
+        <span id="name"></span>
+    </div>
+    <button id="button_text">stop</button>
+
+
+    <script>
+        // 获取标签
+        let nametxt=document.getElementById('name');
+        let button=document.getElementById('button_text');
+        // 创建一个数组存储名字
+        let uname=['阿阳热爱前端','郝嘉慧','冬灰条','蒸羊羔儿','蒸熊掌','蒸鹿尾儿',
+				'烧花鸭','烧雏鸡','烧子鹅','炉猪','炉鸭','酱鸡','腊肉','松花',
+				'小肚儿','晾肉','香肠儿','什锦苏盘儿','熏鸡白肚儿','清蒸八宝猪',
+				'江米酿鸭子','罐儿野鸡','罐儿鹌鹑','卤什件儿','卤子鹅','山鸡','兔脯',
+				'菜蟒','银鱼','清蒸哈什蚂','烩鸭腰儿','鸭条','清拌腰丝儿','黄心管儿'];
+        // 创建一个函数生成随机数字
+        function getrandom(min,max){
+            return Math.floor(Math.random()*(max-min-1)+min);
+        }
+        function clock(){
+            // 通过获取一个随机的数组下标实现随机获取一个名字，并将这个名字赋值给变量random
+            let random=uname[getrandom(0,uname.length-1)];
+            //将random塞到span里
+            nametxt.innerHTML=random;
+        };
+        // 打印名字已经实现了，下一步让没点击按钮前名字一直刷新
+        // 设置不停止时名字的刷新速度为30毫秒
+        let time=self.setInterval("clock()",30);
+        // 将开始与停止按钮绑定到按钮上，并通过按钮控制
+        let flag=false;
+        button.onclick=function(){
+            // 当flag标志为false时，点击按钮让刷新停止；
+            if(flag==false)
+            {
+                time=window.clearInterval(time);
+                // 按钮文字从stop变为start；
+                button.innerHTML='start';
+                // 标志变更
+                flag=true;
+            }else{
+                // 当flag标志为true时，开始刷新，文字变更
+                time=self.setInterval("clock()",30);
+                button.innerHTML='stop';
+                flag=false;
+            }
+        }
+    </script>
+</body>
+</html>
